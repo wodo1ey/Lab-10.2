@@ -1,0 +1,32 @@
+# Напишите программу, которая позволяет выбрать с помощью трех вертикальных шкал рост трех учеников (от 120 до 180 см), 
+# а затем с помощью кнопки «Средний рост» рассчитать их средний рост и вывести информацию в окне в виде метки. 
+
+from tkinter import *
+
+
+def avg():
+    a = person1.get()
+    b = person2.get()
+    c = person3.get()
+    r = (a + b + c) / 3
+    result["text"] = r
+
+
+root = Tk()
+root.title('Средний рост')
+root.geometry('600x500')
+
+person1 = Scale(root, orient=VERTICAL, length=200, from_=180, to=120)
+person2 = Scale(root, orient=VERTICAL, length=200, from_=180, to=120)
+person3 = Scale(root, orient=VERTICAL, length=200, from_=180, to=120)
+
+person1.grid(row=0, column=0)
+person2.grid(row=0, column=1)
+person3.grid(row=0, column=2)
+
+Button(root, text='Средний рост', command=avg).grid(row=0, column=3)
+
+result = Label(root)
+result.grid(row=0, column=4)
+
+root.mainloop()
