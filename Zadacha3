@@ -1,0 +1,77 @@
+# Напишите приложение «Запись на курсы», которая предлагает записаться ученикам 7-11 классов на компьютерные курсы.  Анкета должна содержать следующие поля: 
+# фамилия и имя (текстовое поле), пол (радиокнопка), год рождения (список от 2005 до 2010), название курсов (список из 5 любых наименований). 
+# Окно должно быть поделено на 2 фрейма. В левом фрейме должна отображаться сама анкета и кнопки «Отправить» и «Сброс». После нажатия на кнопку «Отправить» 
+# полученная информация должна отобразиться в соседнем фрейме (каждое заполненное поле в виде отдельной строки с пояснениями), а при нажатии на кнопку «Сброс»  
+# должны быть очищены все поля анкеты и правый фрейм.
+
+from tkinter import *
+years = [2005, 2006, 2007, 2008, 2009, 2010]
+course = ["Программирование на Python", "Геймдизайн", "Робототехника", "Основы баз данных", "C++ с нуля"]
+
+
+def get():
+    if (gender.get() == 1):
+        g = 'мужской'
+    elif (gender.get() == 2):
+        g = 'женский'
+    result["text"] = f'Фамилия, имя: {name.get()}\n' \
+                     f'Пол: {g}\n' \
+                     f'Год рождения: {age.get(ANCHOR)}\n' \
+                     f'Курсы: {courses.get(ANCHOR)}'
+
+
+def delete():
+    name.delete(0, 1000)
+    gender.set(0)
+    age.delete(0, 6)
+    for i in years:
+        age.insert(END, i)
+    age.pack()
+    courses.delete(0, 5)
+    for i in course:
+        courses.insert(END, i)
+    courses.pack()
+    result["text"] = ''
+
+
+root = Tk()
+root.title('Запись на курсы')
+root.geometry('800x500')
+
+fra1 = Frame(root, width=300, height=500, bg='gray')
+fra2 = Frame(root, width=500, height=500)
+
+fra1.grid(row=0, column=0)
+fra2.grid(row=0, column=1)
+
+Label(fra1, text='Фамилия и имя:', font=('Arial', 12, 'bold'), bg='gray').pack()
+
+name = Entry(fra1, width=30, font=('Arial', 12), relief=RAISED, bd=4)
+name.pack(padx=10)
+
+gender = IntVar()
+
+Label(fra1, text="Ваш пол:", font=('Arial', 12, 'bold'), bg='gray', activebackground='gray').pack()
+Radiobutton(fra1, text='Мужской', variable=gender, value=1, bg='gray', activebackground='gray', font=('Arial', 12)).pack()
+Radiobutton(fra1, text='Женский', variable=gender, value=2, bg='gray', activebackground='gray', font=('Arial', 12)).pack()
+
+Label(fra1, text="Ваш год рождения:", font=('Arial', 12, 'bold'), bg='gray').pack()
+age = Listbox(fra1, selectmode=SINGLE, height=6, bg='gray', font=('Arial', 12), selectbackground='black', bd=4)
+for i in years:
+    age.insert(END, i)
+age.pack()
+
+Label(fra1, text="Выберете курсы:", font=('Arial', 12, 'bold'), bg='gray').pack()
+courses = Listbox(fra1, selectmode=SINGLE, height=5, bg='gray', font=('Arial', 12), selectbackground='black', bd=4, width=25)
+for i in course:
+    courses.insert(END, i)
+courses.pack()
+
+Button(fra1, text="Отправить", fg='white', font=('Arial', 12, 'bold'), bg='black', relief=RAISED, bd=4, command=get).pack(pady=5)
+Button(fra1, text="Сброс", fg='white', font=('Arial', 12, 'bold'), bg='black', relief=RAISED, bd=4, command=delete).pack()
+
+Label(fra2, text='Анкета:', font=('Arial', 16, 'bold')).pack()
+result = Label(fra2, font=('Arial', 14))
+result.pack()
+
+root.mainloop()
